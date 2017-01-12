@@ -21,7 +21,7 @@ class DatabaseManager {
 }
 
 if (config.isDevelopment) {
-  logger.info('🗂  Connected to database %s as %s', dbConfig.development.connection.database, dbConfig.development.connection.user)
+  logger.info('🗂  Connected to local database %s as %s', dbConfig.development.connection.database, dbConfig.development.connection.user)
 }
 
 module.exports = new DatabaseManager(KNEX_CONFIG)
