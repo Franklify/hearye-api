@@ -6,47 +6,51 @@ const requests = require('../requests')
 
 let router = require('express').Router()
 
-router.use(bodyParser.json())
-
 function hasOwnership (request) {
   return parseInt(request.user.get('id')) === parseInt(request.params.id);
 }
 
 function createUser (request, response, next) {
   services.UserService
-    .createUser(request.body.first_name, request.body.last_name, request.body.email, request.body.password)
-    .then(function (user) {
+    .createUser(request.body.firstName, request.body.lastName, request.body.email, request.body.password, request.body.phoneNumber)
+    .then((user) => {
       return services.AuthService.issueTokenForUser(user);
     })
-    .then(function (auth) {
+    .then((auth) => {
       response.body = {};
       response.body.auth = auth;
 
       next();
       return null;
     })
-    .catch(function (error) {
+    .catch((error) => {
       next(error);
       return null;
     });
 }
 
 function getUser (request, response, next) {
-  var id = request.params.id;
+  const id = request.params.id;
 
   services.UserService
     .findUserById(id)
-    .then(function (user) {
+    .then((user) => {
       response.body = user.toJSON();
 
       next();
       return null;
     })
-    .catch(function (error) {
+    .catch((error) => {
       next(error);
       return null;
     });
 }
+
+router.use(bodyParser.json())
+router.use(middleware.auth)
+
+router.post('/', middleware.request(requests.UserCreationRequest), createUser)
+router.get('/:id', getUser) // TODO: create permissions for user
 
 
 router.use(middleware.response)

@@ -35,20 +35,6 @@ User.create = (firstName, lastName, email, password, phoneNumber) => {
     })
 }
 
-
-/* Hashes password and sets the hashed password to the User model
- * @param  {Number|String} password for model
- * @return {_Promise<Model>}  a Promise resolving to the resulting model or null
- */
-User.prototype.setPassword = (password) => {
-  return bcrypt
-    .hashAsync(password, 12)
-    .bind(this)
-    .then(function (p) {
-      return _Promise.resolve(this.set({ password: p }))
-    })
-}
-
 /*
  * Finds a user by its ID
  * @param  {Number|String} id the ID of the model with the appropriate type
@@ -78,10 +64,24 @@ User.findByEmail = (email) => {
 User.hasPassword = (password) => {
   return _Promise
     .bind(this)
-    .then(function() {
+    .then(() => {
       return bcrypt.compareAsync(password, this.get('password'))
     })
 }
+
+/* Hashes password and sets the hashed password to the User model
+ * @param  {Number|String} password for model
+ * @return {_Promise<Model>}  a Promise resolving to the resulting model or null
+ */
+User.prototype.setPassword = (password) => {
+  return bcrypt
+    .hashAsync(password, 12)
+    .bind(this)
+    .then((p) => {
+      return _Promise.resolve(this.set({ password: p }))
+    })
+}
+
 
 bookshelf.model('User', User)
 module.exports = User

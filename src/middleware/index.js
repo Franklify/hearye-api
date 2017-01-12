@@ -1,5 +1,6 @@
 module.exports = {
   request: require('./request'),
   response: require('./response'),
-  errors: require('./errors')
+  errors: require('./errors'),
+  auth: require('./auth')
 }
