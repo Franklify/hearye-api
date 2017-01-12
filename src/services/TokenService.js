@@ -14,7 +14,7 @@ const milliseconds = require('ms')
  * @throws {TokenExpirationError} when the request token has expired
  * @throws {TypeError} when the scope was not found
  */
-module.exports.findTokenByValue = (value, scope) => {
+module.exports.findTokenByValue = function (value, scope)  {
   if (!(scope in config.token.expiration)) {
     return _Promise.reject(new TypeError('An invalid or non-existent scope was provided'))
   }
@@ -38,7 +38,7 @@ module.exports.findTokenByValue = (value, scope) => {
 }
 
 
-module.exports.createToken = (payload, userId) => {
+module.exports.createToken = function (payload, userId) {
   return Token
     .where({ user_id: userId }).fetchAll()
     .then((tokens) => {
