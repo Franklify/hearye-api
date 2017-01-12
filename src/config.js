@@ -40,6 +40,12 @@ config.database.prod = {
   name: process.env.PROD_DB_NAME
 }
 
+config.auth = {
+  header: 'Authorization',
+  expiresIn: '7d',
+  secret: config.secret
+}
+
 logger.info('🏠 Configured %s environment', environment)
 
 module.exports = config

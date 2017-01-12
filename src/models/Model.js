@@ -45,7 +45,7 @@ Model.prototype.initialize = () => {
 /**
  * Ensures keys being inserted into the datastore have the correct format
  * @param  {Object} attrs the attributes to transform
- * @return {Object}       the transformed attributes (underscored)
+ * @return {Object} the transformed attributes (underscored)
  */
 Model.prototype.format = (attrs) => {
   return _.mapKeys(attrs, (v, k) => inflection.underscore(k, true))
@@ -54,7 +54,7 @@ Model.prototype.format = (attrs) => {
 /**
  * Ensures keys being retrieved from the datastore have the correct format
  * @param  {Object} attrs the attributes to transform
- * @return {Object}       the transformed attributes (camel-cased)
+ * @return {Object} the transformed attributes (camel-cased)
  */
 Model.prototype.parse = (attrs) => {
   return _.mapKeys(attrs, (v, k) => inflection.camelize(k, true))

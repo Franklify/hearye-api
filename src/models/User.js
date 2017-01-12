@@ -50,7 +50,7 @@ User.findById = (id) => {
  */
 User.findByEmail = (email) => {
   email = email.toLowerCase()
-  return User.where({ email: email }).fetch({ withRelated: ['roles', 'venues']})
+  return User.where({ email: email }).fetch({})
 }
 
 
