@@ -19,6 +19,22 @@ let User = Model.extend({
   }
 })
 
+/* Creates new user */
+User.create = (firstName, lastName, email, password, phoneNumber) => {
+  let user = User.forge({ first_name: firstName, last_name: lastName, email: email, phone_number: phoneNumber })
+
+  return User
+    .transaction((t) => {
+      return user.setPassword(password)
+        .then((result) => {
+          return result.save(null, { transacting: t })
+        })
+        .then(() => {
+          return User.where({ id: user.get('id') }).fetch({ transacting: t })
+        })
+    })
+}
+
 
 /* Hashes password and sets the hashed password to the User model
  * @param  {Number|String} password for model
