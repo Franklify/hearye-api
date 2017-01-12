@@ -7,25 +7,21 @@ const knex = require('knex')
 
 const KNEX_CONFIG = config.isDevelopment ? dbConfig.development : dbConfig.production
 
-function DatabaseManager () {
-  this._knex = knex(KNEX_CONFIG)
-  this._bookshelf = bookshelf(this._knex)
-  this._bookshelf.plugin('pagination')
-  this._bookshelf.plugin('registry')
-}
+class DatabaseManager {
+  constructor (knexConfig) {
+    this._knex = knex(knexConfig)
+    this._bookshelf = bookshelf(this._knex)
+    this._bookshelf.plugin('pagination')
+    this._bookshelf.plugin('registry')
+  }
 
-DatabaseManager.prototype.constructor = DatabaseManager
-
-DatabaseManager.prototype.instance = function () {
-  return this._bookshelf
-}
-
-DatabaseManager.prototype.connection = function () {
-  return this._knex
+  static instance () {
+    return this._bookshelf
+  }
 }
 
 if (config.isDevelopment) {
-  logger.info('🗂  Connected to local database %s as %s', dbConfig.development.connection.database, dbConfig.development.connection.user)
+  logger.info('🗂  Connected to database %s as %s', dbConfig.development.connection.database, dbConfig.development.connection.user)
 }
 
-module.exports = new DatabaseManager()
+module.exports = new DatabaseManager(KNEX_CONFIG)
