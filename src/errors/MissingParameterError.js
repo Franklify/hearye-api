@@ -6,7 +6,7 @@ class MissingParameterError extends BadRequestError {
     
     this.type = 'MissingParameterError'
     this.title = 'Missing Parameter'
-    this.message = message ? message : DEFAULT_MESSAGE
+    this.message = message ? message : 'One or more parameters are missing in your request'
     this.source = source ? source : null
   }
 }
