@@ -1,0 +1,5 @@
+.env
+bin/env.sh
+node_modules/
+
+*.log

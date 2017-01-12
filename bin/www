@@ -1,0 +1,50 @@
+'use strict';
+
+var app = require('../app'),
+    debug = require('debug')('http'),
+    http = require('http'),
+    config = require('../dist/config'),
+    logger = require('../dist/logger');
+
+var port = config.port || 8080;
+app.set('port', port);
+var server = http.createServer(app);
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/* Error callback  Allows server to utilize colloquial error messages
+* @param {Object} error   a JavaScript error object
+*/
+function onError(error) {
+  if (error.syscall !== 'listen')
+    throw error;
+
+  var bind = typeof port === 'string' ? `pipe ${port}` : `port ${port}`;
+
+  switch (error.code) {
+    case 'EACCES':
+      logger.error(`${bind} requires elevated privileges`);
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      logger.error(`${bind} is already in use`);
+      process.exit(1);
+      break;
+    default:
+      logger.error(error.stack);
+      throw error;
+  }
+}
+
+/* Server listening callback */ 
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+  debug(`Listening on ${bind}`);
+
+  if (config.isDevelopment) {
+    logger.info(`🚀  Server listening on port ${addr.port}. Go to http://localhost:${addr.port} .`);
+  }
+}
