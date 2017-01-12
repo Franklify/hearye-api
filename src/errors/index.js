@@ -5,5 +5,6 @@ module.exports = {
   MissingHeaderError: require('./MissingHeaderError'),
   InvalidParameterError: require('./InvalidParameterError'),
   InvalidHeaderError: require('./InvalidHeaderError'),
-  NotFoundError: require('./NotFoundError')
+  NotFoundError: require('./NotFoundError'),
+  TokenExpirationError: require('./TokenExpirationError')
 }

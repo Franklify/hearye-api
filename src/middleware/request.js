@@ -8,12 +8,10 @@ module.exports = (Request) => {
     if (!Request) {
       return next()
     }
-
     let request = new Request(req.headers, req.body)
     request.validate()
       .then((validated) => {
         req.body = request.body()
-
         next()
         return null
       })

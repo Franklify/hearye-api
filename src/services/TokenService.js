@@ -1,7 +1,7 @@
 const _Promise = require('bluebird')
 
 const Token = require('../models/Token')
-const config = require('../../config')
+const config = require('../config')
 const errors = require('../errors')
 const milliseconds = require('ms')
 

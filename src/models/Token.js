@@ -32,7 +32,8 @@ let Token = Model.extend({
  * @returns {String} - an authorization token with an expiration date
  * @throws an Json Web Token Error 
  */
-Token.create = (payload, subject) => {
+Token.create = function (payload, subject) {
+  subject = subject.toString()
   let token = Token.forge({ user_id: subject })
 
   return Token
@@ -53,7 +54,7 @@ Token.create = (payload, subject) => {
  * @returns {String} - an authorization token with an expiration
  * @throws an JSON Web Token Error
  */
-Token.prototype.generate = (payload, subject) => {
+Token.prototype.generate = function (payload, subject) {
   const parameters = _.clone(JWT_CONFIG)
   if (arguments.length > 1) {
     parameters.subject = subject
@@ -66,7 +67,7 @@ Token.prototype.generate = (payload, subject) => {
  * @param {String} value The Token's value
  * @return {Promise} resolving to the associated Token Model
  */
-Token.findByValue = (value) => {
+Token.findByValue = function (value) {
   return this.collection().query({ where: { value: value }}).fetchOne({ withRelated: ['user'] } )
 }
 

@@ -8,16 +8,16 @@ class ApiError extends Error {
     this.message = message ? message : 'An unknown error has occurred'
     this.source = source ? source : null
     this.isApiError = true
-  }
-}
 
-ApiError.prototype.toJSON = () => {
-  return {
-    type: this.type,
-    title: this.title,
-    status: this.status,
-    message: this.message,
-    source: this.source
+    this.toJSON = () => {
+      return {
+        type: this.type,
+        title: this.title,
+        status: this.status,
+        message: this.message,
+        source: this.source
+      }
+    }
   }
 }
 

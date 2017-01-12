@@ -3,7 +3,6 @@ const bodyParser = require('body-parser')
 const services = require('../services')
 const middleware = require('../middleware')
 const requests = require('../requests')
-
 let router = require('express').Router()
 
 function hasOwnership (request) {
@@ -14,6 +13,7 @@ function createUser (request, response, next) {
   services.UserService
     .createUser(request.body.firstName, request.body.lastName, request.body.email, request.body.password, request.body.phoneNumber)
     .then((user) => {
+      console.log(user)
       return services.AuthService.issueTokenForUser(user);
     })
     .then((auth) => {
@@ -56,4 +56,4 @@ router.get('/:id', getUser) // TODO: create permissions for user
 router.use(middleware.response)
 router.use(middleware.errors)
 
-module.exports = router
+module.exports.router = router

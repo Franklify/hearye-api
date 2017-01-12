@@ -9,7 +9,6 @@ class BadRequestError extends ApiError {
     this.status = 400
     this.message = message ? message : 'The server received a request that could not be processed'
     this.source = source ? source : null
-    this.isApiError = true
   }
 } 
 

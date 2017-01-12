@@ -24,9 +24,9 @@ module.exports = (request, response, next) => {
       return null
     })
     .catch(errors.BadRequestError, (error) => {
-      var message = `The provided token was invalid ${error.message}`
+      const message = `The provided token was invalid ${error.message}`
 
-      var source = config.auth.header
+      const source = config.auth.header
 
       next(new errors.InvalidHeaderError(message, source))
       return null

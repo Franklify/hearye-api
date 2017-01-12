@@ -7,14 +7,14 @@ let bodyValidations = {
 }
 let bodyAllowed = ['email', 'password', 'firstName', 'lastName', 'phoneNumber']
 
-function UserCreationRequest (headers, body) {
-  Request.call(this, headers, body)
-  this.bodyRequired = bodyRequired
-  this.bodyValidations = bodyValidations
-  this.bodyAllowed = bodyAllowed
-}
+class UserCreationRequest extends Request {
+  constructor(headers, body) {
+    super(headers, body)
 
-UserCreationRequest.prototype = Object.create(Request.prototype)
-UserCreationRequest.prototype.constructor = UserCreationRequest
+    this.bodyRequired = bodyRequired
+    this.bodyValidations = bodyValidations
+    this.bodyAllowed = bodyAllowed
+  }
+}
 
 module.exports = UserCreationRequest

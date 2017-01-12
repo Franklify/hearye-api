@@ -4,7 +4,6 @@ module.exports = (request, response, next) => {
       meta: (response.meta) ? response.meta : null,
       data: (response.body) ? response.body : {}
     }
-
     response.json(ret);
   }
 

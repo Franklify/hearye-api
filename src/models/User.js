@@ -20,7 +20,7 @@ let User = Model.extend({
 })
 
 /* Creates new user */
-User.create = (firstName, lastName, email, password, phoneNumber) => {
+User.create = function (firstName, lastName, email, password, phoneNumber) {
   let user = User.forge({ first_name: firstName, last_name: lastName, email: email, phone_number: phoneNumber })
 
   return User
@@ -40,7 +40,7 @@ User.create = (firstName, lastName, email, password, phoneNumber) => {
  * @param  {Number|String} id the ID of the model with the appropriate type
  * @return {_Promise<Model>}  a Promise resolving to the resulting model or null
  */
-User.findById = (id) => {
+User.findById = function (id) {
   return User.where({ id: id }).fetch()
 }
 
@@ -50,7 +50,7 @@ User.findById = (id) => {
  * @param  {Number|String} the email of the model 
  * @return {_Promise<Model>} a Promise resolving to the resulting model or null
  */
-User.findByEmail = (email) => {
+User.findByEmail = function (email) {
   email = email.toLowerCase()
   return User.where({ email: email }).fetch({})
 }
@@ -73,7 +73,7 @@ User.hasPassword = (password) => {
  * @param  {Number|String} password for model
  * @return {_Promise<Model>}  a Promise resolving to the resulting model or null
  */
-User.prototype.setPassword = (password) => {
+User.prototype.setPassword = function (password) {
   return bcrypt
     .hashAsync(password, 12)
     .bind(this)

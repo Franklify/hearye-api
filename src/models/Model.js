@@ -38,7 +38,7 @@ let Model = bookshelf.Model.extend(
 /*
  * Initializes the model by setting up all event handlers
  */
-Model.prototype.initialize = () => {
+Model.prototype.initialize = function () {
   this.on('saving', this.validate)
 }
 
@@ -47,7 +47,7 @@ Model.prototype.initialize = () => {
  * @param  {Object} attrs the attributes to transform
  * @return {Object} the transformed attributes (underscored)
  */
-Model.prototype.format = (attrs) => {
+Model.prototype.format = function (attrs) {
   return _.mapKeys(attrs, (v, k) => inflection.underscore(k, true))
 }
 
@@ -56,7 +56,7 @@ Model.prototype.format = (attrs) => {
  * @param  {Object} attrs the attributes to transform
  * @return {Object} the transformed attributes (camel-cased)
  */
-Model.prototype.parse = (attrs) => {
+Model.prototype.parse = function (attrs) {
   return _.mapKeys(attrs, (v, k) => inflection.camelize(k, true))
 }
 
@@ -65,7 +65,7 @@ Model.prototype.parse = (attrs) => {
  * @return {Promise} resolving to the validity of the attributes, as decided by
  * the Checkit library
  */
-Model.prototype.validate = () => {
+Model.prototype.validate = function () {
   return checkit(this.validations).run(this.attributes)
 }
 

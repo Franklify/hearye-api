@@ -3,7 +3,7 @@ const checkit = require('checkit')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash')
 
-const { TokenService } = require('../services')
+const TokenService = require('../services/TokenService')
 const errors = require('../errors')
 const config = require('../config')
 
@@ -11,14 +11,14 @@ const config = require('../config')
  * @param  {User} user the User model holding the information to claim
  * @return {_Promise} resolving to the auth token
  */
-module.exports.issueTokenForUser = (user) => {
+module.exports.issueTokenForUser = function (user) {
   const subject = user.get('id')
   const payload = {
     email: user.get('email')
   }
   return _Promise
     .try(() => {
-      const token = TokenService.createToken(payload, subject)
+      let token = TokenService.createToken(payload, subject)
       return _Promise.resolve(token)
     })
 }
@@ -28,7 +28,7 @@ module.exports.issueTokenForUser = (user) => {
  * @return {_Promise} resolving to the validity of the token, or a rejected
  * _Promise resolving to an UnprocessableRequestError
  */
-module.exports.verify = (token) => {
+module.exports.verify = function (token) {
   return _Promise
     .try(() => {
       return _Promise.resolve(jwt.verify(token, config.secret))

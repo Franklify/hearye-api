@@ -23,7 +23,7 @@ module.exports = (err, req, response, next) => {
     logger.error(err.stack)
 
     err = new errors.ApiError()
-  }
+  } 
 
   const ret = {
     meta: null,
