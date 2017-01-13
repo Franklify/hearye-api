@@ -14,7 +14,6 @@ module.exports = (request, response, next) => {
   return AuthService.verify(auth)
     .then((decoded) => {
       request.auth = true
-      
       return User.findById(decoded.sub)
     })
     .then((user) => {
@@ -25,7 +24,6 @@ module.exports = (request, response, next) => {
     })
     .catch(errors.BadRequestError, (error) => {
       const message = `The provided token was invalid ${error.message}`
-
       const source = config.auth.header
 
       next(new errors.InvalidHeaderError(message, source))

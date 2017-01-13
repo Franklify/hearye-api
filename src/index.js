@@ -9,5 +9,6 @@ api.all('*', (request, response, next) => {
 })
 
 api.use('/user', controllers.UserController.router);
+api.use('/auth', controllers.AuthController.router)
 
 module.exports = api

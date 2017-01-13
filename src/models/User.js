@@ -61,7 +61,7 @@ User.findByEmail = function (email) {
  * @param  {String}  a password 
  * @return {_Promise} resolving to a Boolean representing the validity of the password
  */
-User.hasPassword = function (password) {
+User.prototype.hasPassword = function (password) {
   return _Promise
     .bind(this)
     .then(() => {

@@ -50,7 +50,7 @@ router.use(bodyParser.json())
 router.use(middleware.auth)
 
 router.post('/', middleware.request(requests.UserCreationRequest), createUser)
-router.get('/:id', getUser) // TODO: create permissions for user
+router.get('/:id', middleware.permission(hasOwnership), getUser)
 
 
 router.use(middleware.response)
