@@ -15,7 +15,7 @@ class DatabaseManager {
     this._bookshelf.plugin('registry')
   }
 
-  static instance () {
+  instance () {
     return this._bookshelf
   }
 }

@@ -19,17 +19,19 @@ let User = Model.extend({
   }
 })
 
+/* Creates new user */
+User.create = function (firstName, lastName, email, password, phoneNumber) {
+  let user = User.forge({ first_name: firstName, last_name: lastName, email: email, phone_number: phoneNumber })
 
-/* Hashes password and sets the hashed password to the User model
- * @param  {Number|String} password for model
- * @return {_Promise<Model>}  a Promise resolving to the resulting model or null
- */
-User.prototype.setPassword = (password) => {
-  return bcrypt
-    .hashAsync(password, 12)
-    .bind(this)
-    .then(function (p) {
-      return _Promise.resolve(this.set({ password: p }))
+  return User
+    .transaction((t) => {
+      return user.setPassword(password)
+        .then((result) => {
+          return result.save(null, { transacting: t })
+        })
+        .then(() => {
+          return User.where({ id: user.get('id') }).fetch({ transacting: t })
+        })
     })
 }
 
@@ -38,7 +40,7 @@ User.prototype.setPassword = (password) => {
  * @param  {Number|String} id the ID of the model with the appropriate type
  * @return {_Promise<Model>}  a Promise resolving to the resulting model or null
  */
-User.findById = (id) => {
+User.findById = function (id) {
   return User.where({ id: id }).fetch()
 }
 
@@ -48,9 +50,9 @@ User.findById = (id) => {
  * @param  {Number|String} the email of the model 
  * @return {_Promise<Model>} a Promise resolving to the resulting model or null
  */
-User.findByEmail = (email) => {
+User.findByEmail = function (email) {
   email = email.toLowerCase()
-  return User.where({ email: email }).fetch({ withRelated: ['roles', 'venues']})
+  return User.where({ email: email }).fetch({})
 }
 
 
@@ -59,13 +61,27 @@ User.findByEmail = (email) => {
  * @param  {String}  a password 
  * @return {_Promise} resolving to a Boolean representing the validity of the password
  */
-User.hasPassword = (password) => {
+User.prototype.hasPassword = function (password) {
   return _Promise
     .bind(this)
-    .then(function() {
+    .then(() => {
       return bcrypt.compareAsync(password, this.get('password'))
     })
 }
+
+/* Hashes password and sets the hashed password to the User model
+ * @param  {Number|String} password for model
+ * @return {_Promise<Model>}  a Promise resolving to the resulting model or null
+ */
+User.prototype.setPassword = function (password) {
+  return bcrypt
+    .hashAsync(password, 12)
+    .bind(this)
+    .then((p) => {
+      return _Promise.resolve(this.set({ password: p }))
+    })
+}
+
 
 bookshelf.model('User', User)
 module.exports = User

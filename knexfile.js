@@ -11,7 +11,7 @@ module.exports = {
       charset : 'utf8'
     },
     migrations: {
-      directory: __dirname + 'database/migrations'
+      directory: __dirname + '/database/migrations'
     },
     pool: {
       min: 0,
@@ -28,7 +28,7 @@ module.exports = {
       database : config.database.prod.name
     },
     migrations: {
-      directory: __dirname + 'database/migrations'
+      directory: __dirname + '/database/migrations'
     },
     pool: {
       min: 0,
