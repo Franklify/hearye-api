@@ -6,7 +6,7 @@ const requests = require('../requests')
 let router = require('express').Router()
 
 function hasOwnership (request) {
-  return parseInt(request.user.get('id')) === parseInt(request.params.id);
+  return parseInt(request.user.get('id')) === parseInt(request.params.id)
 }
 
 function createUser (request, response, next) {
@@ -14,36 +14,36 @@ function createUser (request, response, next) {
     .createUser(request.body.firstName, request.body.lastName, request.body.email, request.body.password, request.body.phoneNumber)
     .then((user) => {
       console.log(user)
-      return services.AuthService.issueTokenForUser(user);
+      return services.AuthService.issueTokenForUser(user)
     })
     .then((auth) => {
-      response.body = {};
-      response.body.auth = auth;
+      response.body = {}
+      response.body.auth = auth
 
-      next();
-      return null;
+      next()
+      return null
     })
     .catch((error) => {
-      next(error);
-      return null;
-    });
+      next(error)
+      return null
+    })
 }
 
 function getUser (request, response, next) {
-  const id = request.params.id;
+  const id = request.params.id
 
   services.UserService
     .findUserById(id)
     .then((user) => {
-      response.body = user.toJSON();
+      response.body = user.toJSON()
 
-      next();
-      return null;
+      next()
+      return null
     })
     .catch((error) => {
-      next(error);
-      return null;
-    });
+      next(error)
+      return null
+    })
 }
 
 router.use(bodyParser.json())
